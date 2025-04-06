@@ -2,6 +2,7 @@ package ovencakeapp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -55,6 +56,16 @@ public class Cakes {
     //@return the date and time when the cake was placed into the oven
     public LocalDateTime getTimePlaced() {
         return timePlaced;
-    }   
+    }
+    @Override
+    public String toString() {
+        // Define the format: Date @ Time, showing only up to seconds
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd '@' HH:mm:ss");
+
+        // Build and return a descriptive string for the cake
+        return name + " (" + weight + "g), \t Best Before: " + bestBeforeDate +
+                ", \t Placed: " + timePlaced.format(formatter);
+}
+
     
 }
