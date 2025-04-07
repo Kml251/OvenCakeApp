@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ovencakeapp;
 
 import java.time.LocalDate;
@@ -173,11 +169,28 @@ public class OvenGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        // To list all cakes
+        if(oven.isEmpty()){
+            jTextArea1.setText("Oven is empty. \n");
+        } else{
+            StringBuilder sb = new StringBuilder ("Cakes in oven: \n");
+            for (int i = 0; i < oven.size(); i++) {
+                Object cake = oven.frontElement();
+                sb.append(cake.toString()).append("\n");
+                oven.enqueue(oven.dequeue());
+            }
+            jTextArea1.setText(sb.toString());
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        // To check if the oven is empty
+        if (oven.isEmpty()){
+            jTextArea1.setText("No cakes to remove. \n");
+        }else {
+            Object removed = oven.dequeue();
+            jTextArea1.setText("Removed: " + removed.toString());
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -202,7 +215,7 @@ public class OvenGUI extends javax.swing.JFrame {
         //To try-catch is getting any values without numbers.
         try{
             int weight = Integer.parseInt(weightStr);
-            LocalDate bestBefore =LocalDate.parse(dateStr);
+            LocalDate bestBeforeDate =LocalDate.parse(dateStr);
             LocalDate today = LocalDate.now();
             
             //To check if the oven is full
@@ -211,13 +224,13 @@ public class OvenGUI extends javax.swing.JFrame {
                 jTextArea1.setText("No more capacity in the Oven! Please remove the first cake! \n");
             }
             else {
-                Cakes cake = new Cakes(name, weight, bestBefore);
+                Cakes cake = new Cakes(name, weight, bestBeforeDate);
                 oven.enqueue(cake);
                 jTextArea1.setText("Cake added: " + cake.toString());
                 
             }
             //To check if the expiration date is within 14 days
-            if(bestBefore.isAfter(today.plusDays(14))){
+            if(bestBeforeDate.isAfter(today.plusDays(14))){
                 jTextArea1.setText("Best-before date must be within 14 days from today.\n");
                 return;
             }
