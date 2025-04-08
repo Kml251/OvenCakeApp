@@ -64,6 +64,11 @@ public class OvenGUI extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton3.setText("Seek the Cake");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton4.setText("List All Cakes");
@@ -169,10 +174,14 @@ public class OvenGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // To list all cakes
+        // To verify if the oven is empty.
         if(oven.isEmpty()){
             jTextArea1.setText("Oven is empty. \n");
-        } else{
+        }
+        // To display all cakes in the oven.
+        else{
+            // Using StringBuilder for efficient string concatenation in a loop.
+            // This avoids repeated string object creation and is faster than regular string (+) operations.
             StringBuilder sb = new StringBuilder ("Cakes in oven: \n");
             for (int i = 0; i < oven.size(); i++) {
                 Object cake = oven.frontElement();
@@ -184,10 +193,12 @@ public class OvenGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // To check if the oven is empty
+        // To verify if the oven is empty.
         if (oven.isEmpty()){
             jTextArea1.setText("No cakes to remove. \n");
-        }else {
+        }
+        // To remove the cake with using dequeue method.
+        else {
             Object removed = oven.dequeue();
             jTextArea1.setText("Removed: " + removed.toString());
         }
@@ -198,31 +209,35 @@ public class OvenGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //To exit the program
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //To introduce the fields as a String: getText() is to add value into the cake name; trim() is to clean any space around the value to add by mistake.
+        /*To introduce the fields as a String: getText() is to add value into the cake name;
+          trim() is to clean any space around the value to add by mistake. */
         String name = jTextField1.getText().trim(); //To get cake's name
         String weightStr = jTextField2.getText().trim();//To get cake's weight as a String
         String dateStr = jTextField3.getText().trim();//To get cake's expiration date as a String
         
         //To check all fields are filled in.
         if (name.isEmpty() || weightStr.isEmpty() || dateStr.isEmpty()){
+            //To request the fields are filled in, if not, prompt the message.
             jTextArea1.setText("Please fill in all fields. \n");
             return;
         }
         //To try-catch is getting any values without numbers.
         try{
+            // To return the string values to an integer and date.
             int weight = Integer.parseInt(weightStr);
             LocalDate bestBeforeDate =LocalDate.parse(dateStr);
             LocalDate today = LocalDate.now();
             
             //To check if the oven is full
             if (oven.size() >= 5){
-                
                 jTextArea1.setText("No more capacity in the Oven! Please remove the first cake! \n");
             }
+            // To add the cake in the oven with using enqueue method.
             else {
                 Cakes cake = new Cakes(name, weight, bestBeforeDate);
                 oven.enqueue(cake);
@@ -236,7 +251,8 @@ public class OvenGUI extends javax.swing.JFrame {
             }
             //To clean fields after adding the date
             jTextField1.setText(" ");
-            jTextField2.setText(" "); /* I have only chosen name and weight because expiration days cannot be changed every time! */
+            jTextField2.setText(" "); 
+            /* I have only chosen name and weight because expiration days cannot be changed every time! */
                        
         } catch (NumberFormatException e){
             jTextArea1.setText("Weight must be a number. \n");
@@ -245,6 +261,19 @@ public class OvenGUI extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // To verify if the oven is empty.
+        if (oven.isEmpty()){
+            jTextArea1.setText("There are no cakes in the oven. \n");
+        }
+        // To show the top item using the frontElement function.
+        else {
+            Object topCake = oven.frontElement();
+            jTextArea1.setText("Cake at the front of the oven: \n" +topCake.toString());
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
