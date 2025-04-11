@@ -1,6 +1,7 @@
 package ovencakeapp;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -101,8 +102,6 @@ public class OvenGUI extends javax.swing.JFrame {
             }
         });
 
-        jTextField3.setText("YYYY-MM-DD");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -174,6 +173,7 @@ public class OvenGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //To List All Cakes
         // To verify if the oven is empty.
         if(oven.isEmpty()){
             jTextArea1.setText("Oven is empty. \n");
@@ -183,6 +183,10 @@ public class OvenGUI extends javax.swing.JFrame {
             // Using StringBuilder for efficient string concatenation in a loop.
             // This avoids repeated string object creation and is faster than regular string (+) operations.
             StringBuilder sb = new StringBuilder ("Cakes in oven: \n");
+            sb.append(String.format("%-12s %-10s %-16s %-25s \n", 
+                        "Name", "Weight", "Best Before", "Placed"));
+            sb.append("----------------------------------------------------------------------------------------\n");
+            
             for (int i = 0; i < oven.size(); i++) {
                 Object cake = oven.frontElement();
                 sb.append(cake.toString()).append("\n");
@@ -193,6 +197,7 @@ public class OvenGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // To Remove 
         // To verify if the oven is empty.
         if (oven.isEmpty()){
             jTextArea1.setText("No cakes to remove. \n");
@@ -200,7 +205,12 @@ public class OvenGUI extends javax.swing.JFrame {
         // To remove the cake with using dequeue method.
         else {
             Object removed = oven.dequeue();
-            jTextArea1.setText("Removed: " + removed.toString());
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("%-12s %-10s %-16s %-25s \n", 
+                        "Name", "Weight", "Best Before", "Placed"));
+            sb.append("----------------------------------------------------------------------------------------\n");
+            sb.append(removed.toString());
+            jTextArea1.setText("Cake removed: \n" + sb.toString());
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -214,6 +224,7 @@ public class OvenGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //To Add
         /*To introduce the fields as a String: getText() is to add value into the cake name;
           trim() is to clean any space around the value to add by mistake. */
         String name = jTextField1.getText().trim(); //To get cake's name
@@ -230,8 +241,20 @@ public class OvenGUI extends javax.swing.JFrame {
         try{
             // To return the string values to an integer and date.
             int weight = Integer.parseInt(weightStr);
-            LocalDate bestBeforeDate =LocalDate.parse(dateStr);
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate bestBeforeDate =LocalDate.parse(dateStr, inputFormatter);
             LocalDate today = LocalDate.now();
+            
+            // To check the date should not be in the past.
+            if(bestBeforeDate.isBefore(today)){
+                jTextArea1.setText("Best-Before date cannot be in the past. \n");
+                return;
+            }
+            //To check if the expiration date is within 14 days
+            if(bestBeforeDate.isAfter(today.plusDays(14))){
+                jTextArea1.setText("Best-before date must be within 14 days from today.\n");
+                return;
+            }
             
             //To check if the oven is full
             if (oven.size() >= 5){
@@ -241,13 +264,12 @@ public class OvenGUI extends javax.swing.JFrame {
             else {
                 Cakes cake = new Cakes(name, weight, bestBeforeDate);
                 oven.enqueue(cake);
-                jTextArea1.setText("Cake added: " + cake.toString());
-                
-            }
-            //To check if the expiration date is within 14 days
-            if(bestBeforeDate.isAfter(today.plusDays(14))){
-                jTextArea1.setText("Best-before date must be within 14 days from today.\n");
-                return;
+                StringBuilder sb = new StringBuilder();
+                sb.append(String.format("%-12s %-10s %-16s %-25s \n",
+                        "Name", "Weight", "Best Before", "Placed"));
+                sb.append("----------------------------------------------------------------------------------------\n");
+                sb.append(cake.toString());
+                jTextArea1.setText("Cake added: \n" + sb.toString());
             }
             //To clean fields after adding the date
             jTextField1.setText(" ");
@@ -257,12 +279,13 @@ public class OvenGUI extends javax.swing.JFrame {
         } catch (NumberFormatException e){
             jTextArea1.setText("Weight must be a number. \n");
         } catch (Exception e){
-            jTextArea1.setText("Invalid data format. Use YYYY-MM-DD. \n");
+            jTextArea1.setText("Invalid data format. Use DD-MM-YYYY. \n");
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // To Seek the Cake
         // To verify if the oven is empty.
         if (oven.isEmpty()){
             jTextArea1.setText("There are no cakes in the oven. \n");
@@ -270,7 +293,12 @@ public class OvenGUI extends javax.swing.JFrame {
         // To show the top item using the frontElement function.
         else {
             Object topCake = oven.frontElement();
-            jTextArea1.setText("Cake at the front of the oven: \n" +topCake.toString());
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("%-12s %-10s %-16s %-25s \n",
+                    "Name", "Weight", "Best Before", "Placed"));
+            sb.append("----------------------------------------------------------------------------------------\n");
+            sb.append(topCake.toString());
+            jTextArea1.setText("Cake at the front of the oven: \n" + sb.toString());
         }
         
     }//GEN-LAST:event_jButton3ActionPerformed
