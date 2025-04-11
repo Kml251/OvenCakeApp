@@ -60,11 +60,12 @@ public class Cakes {
     @Override
     public String toString() {
         // Define the format: Date @ Time, showing only up to seconds
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd '@' HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy '@' HH:mm:ss");
 
         // Build and return a descriptive string for the cake
-        return name + " (" + weight + "g), \t Best Before: " + bestBeforeDate +
-                ", \t Placed: " + timePlaced.format(formatter);
+        return String.format("%-12s %-10s %-16s %-25s", 
+                        name, weight + "g", bestBeforeDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+                        timePlaced.format(formatter));
 }
 
     
