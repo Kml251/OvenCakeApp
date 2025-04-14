@@ -16,6 +16,11 @@ public class OvenGUI extends javax.swing.JFrame {
     public OvenGUI() {
         initComponents();
         
+        // Sets the font of the output text area to Monospaced, Bold, size 12.
+        // Monospaced font ensures that columns of text (like cake details) align neatly,
+        // which improves readability when displaying formatted tables in the GUI.
+        jTextArea1.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 12));
+        
         //-----------------------------------------------------------------------
         //Note: All cake and weight radio buttons were added via NetBeans GUI Designer.
         //They were grouped by choosing ButtonGroup
@@ -23,7 +28,6 @@ public class OvenGUI extends javax.swing.JFrame {
         //-----------------------------------------------------------------------
         jTextField1.setEnabled(false);
         jTextField2.setEnabled(false);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 12));
         
         jRadioButton6.addActionListener(e -> jTextField1.setEnabled(true));
         jRadioButton12.addActionListener(e -> jTextField2.setEnabled(true));
@@ -274,7 +278,10 @@ public class OvenGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        //To List All Cakes
+        /* 
+        * ===== To List All Cakes =====
+        */
+        
         // To verify if the oven is empty.
         if(oven.isEmpty()){
             jTextArea1.setText("Oven is empty. \n");
@@ -298,7 +305,10 @@ public class OvenGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // To Remove 
+        /* 
+        * ===== To Remove =====
+        */
+        
         // To verify if the oven is empty.
         if (oven.isEmpty()){
             jTextArea1.setText("No cakes to remove. \n");
@@ -325,9 +335,13 @@ public class OvenGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //To Add
+        /*
+        * ===== To Add =====
+        */
+        
         /*To introduce the fields as a String: getText() is to add value into the cake name;
-          trim() is to clean any space around the value to add by mistake. */
+        trim() is to clean any space around the value to add by mistake. */
+        
         // To get cake name
         String name = "";
         if(jRadioButton1.isSelected()) name = "Pineapple";
@@ -406,7 +420,10 @@ public class OvenGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // To Seek the Cake
+        /*
+        * ===== To Seek the Cake =====
+        */
+        
         // To verify if the oven is empty.
         if (oven.isEmpty()){
             jTextArea1.setText("There are no cakes in the oven. \n");
