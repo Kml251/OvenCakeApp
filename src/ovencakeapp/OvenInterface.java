@@ -15,18 +15,18 @@ package ovencakeapp;
 
 public interface OvenInterface {
     //To check if the oven (queue) is empty.
-    boolean isEmpty();
+    public boolean isEmpty();
     
     //To return the number of cakes currently in the oven.
-    int size();
+    public int size();
     
     //To retrieve (without removing) the first cake in the oven.
-    Object frontElement();
+    public Object frontElement();
     
     //To add a new cake to the oven.
-    void enqueue (Object element);
+    public void enqueue (Object element);
     
     //To remove the first (oldest) cake from the oven.
-    Object dequeue();
+    public Object dequeue();
     
 }
