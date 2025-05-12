@@ -30,7 +30,7 @@ public class MyOven implements OvenInterface {
     public boolean isEmpty(){
         return theQueue.isEmpty();
     }
-    
+        
     // To return the number of cakes currently in the oven.
     public int size(){
         return theQueue.size();
