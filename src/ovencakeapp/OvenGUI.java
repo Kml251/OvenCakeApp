@@ -376,6 +376,11 @@ public class OvenGUI extends javax.swing.JFrame {
             LocalDate bestBeforeDate =LocalDate.parse(dateStr, inputFormatter);
             LocalDate today = LocalDate.now();
             
+            if(weight < 100 || weight >2000 ){
+                jTextArea1.setText("Weight cannot add less than 100 g. or more than 2000 g.");
+                return;
+            }
+            
             // To check the date should not be in the past.
             if(bestBeforeDate.isBefore(today)){
                 jTextArea1.setText("Best-Before date cannot be in the past. \n");
